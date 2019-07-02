@@ -1,0 +1,27 @@
+Private Sub Printout_Click()
+Dim i As Integer
+
+For i = 55 To 1 Step -1
+    AppActivate "Adobe", True 'appli à activer
+    MySK "%"
+    MySK "fw", True
+    Pause (1)
+    MySK "{TAB} ", True
+    MySK "{TAB}{DOWN 3}~", True
+    MySK "{TAB 4}", True
+    MySK "{DOWN " + CStr(i) + "}~", True
+    MySK "d"
+    Pause (6)
+    MySK "%"
+    MySK "fcy"
+    Pause (1)
+    AppActivate "Adobe", True 'appli à activer
+    If i < 10 Then
+        MySK "0" + CStr(i) + "~"
+        Else
+        MySK CStr(i) + "~"
+    End If
+    Pause (5)
+Next i
+
+End Sub
