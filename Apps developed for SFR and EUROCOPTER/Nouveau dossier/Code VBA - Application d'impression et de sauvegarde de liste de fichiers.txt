@@ -1,0 +1,113 @@
+Option Compare Database
+Option Explicit
+'Fonctions appelées
+Function RightInStr(Départ As Integer, StrDans, StrCherché As String) As Integer
+Dim i As Integer
+i = 1
+While
+'Code personel
+Wend
+RightInStr = i
+End Function
+'Remplit la liste avec les dossiers du chemin spécifié
+Private Sub List_Rep_Fill(StrRep)
+Dim MyName As String
+List_Rep.RowSource = ""
+MyName = Dir(StrRep + "\*.", vbDirectory) ' Retrieve the first entry.
+Do While MyName <> ""   ' Start the loop.
+    ' Ignore the current directory
+    If MyName <> "." Then
+        'remplit la liste avec le nom des dossiers
+        List_Rep.RowSource = List_Rep.RowSource + MyName + ";"
+    End If
+    MyName = Dir    ' Get next entry.
+Loop
+Dossier_Label = StrRep
+End Sub
+'Fin des fonctions appelées
+
+Private Sub Chk_SR_AfterUpdate()
+List_Rep_Click
+End Sub
+
+Private Sub Cmd_Explorer_Click()
+Shell "EXPLORER.EXE /n,/e, " & Dossier_Label.Value + "\", vbNormalFocus
+End Sub
+
+Private Sub Cmd_Label_Click()
+List_Rep_Fill (Dossier_Label)
+End Sub
+
+Private Sub Form_Load()
+Dim StrFolder As Recordset
+Set StrFolder = CurrentDb.OpenRecordset("Folders", dbOpenTable)
+StrFolder.MoveFirst
+Dossier_Label = StrFolder.Fields(0)
+List_Rep_Fill (Dossier_Label)
+StrFolder.Close
+'ChangeTaille Application.hWndAccessApp, -300, 0, 200, 0, True
+End Sub
+Private Sub Form_Unload(Cancel As Integer)
+Dim StrFolder As Recordset
+Set StrFolder = CurrentDb.OpenRecordset("Folders", dbOpenTable)
+With StrFolder
+    .MoveFirst
+    .Edit
+    .Fields(0) = Dossier_Label
+    .Update
+    .Close
+End With
+End Sub
+
+Private Sub List_Files_DblClick(Cancel As Integer)
+Shell ("cmd.exe /c " & Chr$(34) & Dossier_Label.Value + "\" + List_Files & Chr$(34))
+End Sub
+
+Private Sub List_Rep_Click()
+If List_Rep.Value <> ".." Then
+Dim i As Integer, Rs_Files As Recordset
+DoCmd.SetWarnings False
+DoCmd.RunSQL "delete * from Files"
+DoCmd.SetWarnings True
+
+Set Rs_Files = CurrentDb.OpenRecordset("Files", dbOpenTable)
+With Application.FileSearch
+    .NewSearch
+    .SearchSubFolders = Chk_SR
+    'On Error Resume Next
+    .LookIn = Dossier_Label + "\" + List_Rep.Value
+    'On Error GoTo 0
+    .FileName = Txt_Flter
+    .MatchAllWordForms = True
+    If .Execute() > 0 Then
+        'renseigne List_Files
+        For i = 1 To .FoundFiles.Count
+        Rs_Files.AddNew
+        Rs_Files.Fields(0) = "Code personel"
+        Rs_Files.Fields(1) = "Code personel"
+        Rs_Files.Update
+        Next i
+    End If
+End With
+Rs_Files.Close
+List_Files.Requery
+End If
+End Sub
+
+Private Sub List_Rep_DblClick(Cancel As Integer)
+If List_Rep.Value = ".." Then
+'revient d'un dossier en arrière
+Dossier_Label = Left(Dossier_Label, RightInStr(Len(Dossier_Label), Dossier_Label, "\") - 1)
+List_Rep_Fill (Dossier_Label)
+Else
+List_Rep_Fill (Dossier_Label + "\" + List_Rep.Value)
+End If
+End Sub
+
+Private Sub Txt_Flter_AfterUpdate()
+List_Rep_Click
+End Sub
+
+Private Sub Cmd_Excel_Click()
+DoCmd.OutputTo acTable, "Files", "MicrosoftExcel(*.xls)", , True, ""
+End Sub
