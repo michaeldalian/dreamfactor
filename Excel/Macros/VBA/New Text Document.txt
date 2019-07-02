@@ -1,0 +1,56 @@
+Option Compare Database
+Option Explicit
+
+Declare Function GlobalUnlock Lib "kernel32" (ByVal hMem As Long) As Long
+Declare Function GlobalLock Lib "kernel32" (ByVal hMem As Long) As Long
+Declare Function GlobalAlloc Lib "kernel32" (ByVal wFlags As Long, ByVal dwBytes As Long) As Long
+Declare Function CloseClipboard Lib "User32" () As Long
+Declare Function OpenClipboard Lib "User32" (ByVal hWnd As Long) As Long
+Declare Function EmptyClipboard Lib "User32" () As Long
+Declare Function lstrcpy Lib "kernel32" (ByVal lpString1 As Any, ByVal lpString2 As Any) As Long
+Declare Function SetClipboardData Lib "User32" (ByVal wFormat As Long, ByVal hMem As Long) As Long
+Declare Function GetClipboardData Lib "User32" (ByVal wFormat As Long) As Long
+
+Public Const GHND = &H42
+Public Const CF_TEXT = 1
+Public Const MAXSIZE = 4096
+
+
+Function ClipBoard_GetData(MyString As String)
+Dim hGlobalMemory As Long, lpGlobalMemory As Long
+Dim hClipMemory As Long, X As Long
+
+' Allocation de mémoire Global.
+'hGlobalMemory = GlobalAlloc(GHND, Len(MyString) + 1)
+
+' Reserve ce bloc et retourne un pointeur de
+' type Far sur ce bloc.
+'lpGlobalMemory = GlobalLock(hGlobalMemory)
+
+' Copie de la chaine dans ce bloc.
+'lpGlobalMemory = lstrcpy(lpGlobalMemory, MyString)
+
+' Restitue le bloc de mémoire.
+'If GlobalUnlock(hGlobalMemory) <> 0 Then
+'MsgBox "Echec à la restitution de la mémoire. Abandon de la copie."
+'GoTo OutOfHere2
+'End If
+
+' Ouvre le Presse-Papiers
+If OpenClipboard(0&) = 0 Then
+MsgBox "Echec à l'ouverture du Presse-Papiers. Abandon de la copie"
+Exit Function
+End If
+
+
+' Copie les données contenues dans le Presse-Papier.
+MyString = GetClipboardData(CF_TEXT)
+'MyString = hClipMemory
+
+'OutOfHere2:
+
+'If CloseClipboard() = 0 Then
+'MsgBox "Echec à la fermeture du Presse-papiers"
+'End If
+
+End Function

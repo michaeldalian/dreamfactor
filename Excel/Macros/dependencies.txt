@@ -1,0 +1,28 @@
+Sub Macro1()
+Dim Nb_Lign  As Integer
+
+    For Nb_Lign = 2 To 768 Step 4 '= (Nb de lignes du fichier)
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    
+    Selection.EntireRow.Insert
+    Selection.EntireRow.Insert
+    Selection.EntireRow.Insert
+    ActiveSheet.Cells(Nb_Lign, 1).Select
+        
+        ActiveSheet.Cells(Nb_Lign, 3) = ActiveSheet.Cells(Nb_Lign, 1) + "_RPLP_FURN_SEL"
+        ActiveSheet.Cells(Nb_Lign + 1, 3) = ActiveSheet.Cells(Nb_Lign, 1) + "_RMVP_PROV_SEL"
+        ActiveSheet.Cells(Nb_Lign + 2, 3) = ActiveSheet.Cells(Nb_Lign, 1) + "_FURN_RPLP_QTY"
+        ActiveSheet.Cells(Nb_Lign + 3, 3) = ActiveSheet.Cells(Nb_Lign, 1) + "_FURN_RMVP_QTY"
+    
+        ActiveSheet.Cells(Nb_Lign, 4) = Left(ActiveSheet.Cells(Nb_Lign, 2), 17) + " RPLP FURN SEL"
+        ActiveSheet.Cells(Nb_Lign + 1, 4) = Left(ActiveSheet.Cells(Nb_Lign, 2), 17) + " RMVP PROV SEL"
+        ActiveSheet.Cells(Nb_Lign + 2, 4) = Left(ActiveSheet.Cells(Nb_Lign, 2), 17) + " RPLP FURN QTY"
+        ActiveSheet.Cells(Nb_Lign + 3, 4) = Left(ActiveSheet.Cells(Nb_Lign, 2), 17) + " RMVP FURN QTY"
+    
+        ActiveSheet.Cells(Nb_Lign + 3, 2) = ActiveSheet.Cells(Nb_Lign, 2) '+ "(Furn Removable Parts)"
+        ActiveSheet.Cells(Nb_Lign + 2, 2) = ActiveSheet.Cells(Nb_Lign, 2) '+ "(Furn Replacement Parts)"
+        ActiveSheet.Cells(Nb_Lign + 1, 2) = ActiveSheet.Cells(Nb_Lign, 2) + " (Removable Parts)"
+        ActiveSheet.Cells(Nb_Lign, 2) = ActiveSheet.Cells(Nb_Lign, 2) + " (Replacement Parts)"
+    
+    Next Nb_Lign
+End Sub

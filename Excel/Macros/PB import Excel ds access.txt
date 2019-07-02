@@ -1,0 +1,116 @@
+Sub Macro1()
+' -------------- IMPORTANT -----------------
+'mets à jour .xls (Link access PB format de données)
+'Ne fonctionne qu'avec les données Dates, text, et numérique
+'Mettre toutes les colones au format recherché(Date,...) AVANT de lancer la macro
+'Laisser le format "General" pour les colones où il y a des formules calculées
+' ------------------------------------------
+
+Dim Nb_Lign, Nb_Col As Integer
+
+For Nb_Col = 1 To 28
+For Nb_Lign = 3 To 1050
+On Error Resume Next
+    'ActiveSheet correspond à la feuille affichée (ex: Sheet1)
+    ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+    If ActiveCell.Value Like ActiveCell.Formula Then
+            ActiveCell.Value = ActiveCell.Formula & " "
+            ActiveCell.Formula = RTrim(ActiveCell.Value)
+        Else
+            ActiveCell.Formula = ActiveCell.Formula & " "
+    End If
+    
+On Error GoTo 0
+Next Nb_Lign
+Next Nb_Col
+
+End Sub
+
+------------------------------------------------------------------------------------
+
+Sub Macro1()
+'mets à jour .xls (Link access PB format de données)
+'Ne fonctionne qu'avec les données Dates, text, et numérique
+Dim Nb_Lign, Nb_Col As Integer
+
+For Nb_Col = 6 To 6
+For Nb_Lign = 4 To 14
+On Error Resume Next
+    'ActiveSheet correspond au numéro de la feuille affichée (ex: Sheet1)
+    ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+    If Not ActiveCell.FormulaR1C1 Like "=*" Then
+        Select Case TypeName(ActiveCell.Value)
+        Case "String"
+            ActiveCell.NumberFormat = "@"
+            ActiveCell.Value = CStr(ActiveCell.Value)
+        Case "Date"
+            ActiveCell.Value = CDate(ActiveCell.Value)
+    'numérique
+        Case "Double"
+            ActiveCell.Value = CDbl(ActiveCell.Value)
+        Case "Single"
+            ActiveCell.Value = CSng(ActiveCell.Value)
+        Case "Decimal"
+            ActiveCell.Value = CDec(ActiveCell.Value)
+        End Select
+        If (ActiveCell.NumberFormat Like "*-y*" And ActiveCell.NumberFormat Like "*/y*") Then
+            ActiveCell.Value = CDate(ActiveCell.Value)
+        ElseIf ActiveCell.FormulaR1C1 Like "*/*/*" Then
+            ActiveCell.NumberFormat = "dd/mm/yyyy"
+            ActiveCell.Value = CDate(ActiveCell.Value)
+        End If
+    End If
+    
+On Error GoTo 0
+Next Nb_Lign
+Next Nb_Col
+
+End Sub
+------------------------------------------------------------------------------------
+
+
+Sub Macro1()
+'mets à jour .xls (Link access PB format de données)
+'Ne fonctionne qu'avec les données Dates, text, et numérique
+Dim Nb_Lign, Nb_Col As Integer
+
+For Nb_Col = 6 To 6
+For Nb_Lign = 4 To 14
+'On Error Resume Next
+    'ActiveSheet correspond au numéro de la feuille affichée (ex: Sheet1)
+    ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+    
+    Select Case ActiveCell.NumberFormat
+        Case "@"
+        ActiveCell.Value = ActiveCell.Value & " "
+        ActiveCell.Value = RTrim(ActiveCell.Value)
+        Case "*-y*" Or "*/y*"
+        ActiveCell.Value = CDate(ActiveCell.Value)
+        Case "*/*/*"
+        ActiveCell.NumberFormat = "dd/mm/yyyy"
+        ActiveCell.Value = CDate(ActiveCell.Value)
+    End Select
+
+    
+    If Not ActiveCell.FormulaR1C1 Like "=*" And ActiveCell.NumberFormat = "General" Then
+        Select Case TypeName(ActiveCell.Value)
+        Case "String"
+            ActiveCell.NumberFormat = "@"
+            ActiveCell.Value = CStr(ActiveCell.Value)
+        Case "Date"
+            ActiveCell.Value = CDate(ActiveCell.Value)
+    'numérique
+        Case "Double"
+            ActiveCell.Value = CDbl(ActiveCell.Value)
+        Case "Single"
+            ActiveCell.Value = CSng(ActiveCell.Value)
+        Case "Decimal"
+            ActiveCell.Value = CDec(ActiveCell.Value)
+        End Select
+    End If
+    
+'On Error GoTo 0
+Next Nb_Lign
+Next Nb_Col
+
+End Sub

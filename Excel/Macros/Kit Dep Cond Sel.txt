@@ -1,0 +1,15 @@
+**************************************************************
+Sub Macro1()
+
+For Nb_Lign = 2 To 500 Step 2 'nblign
+if ActiveSheet.Range("E" & Nb_Lign) <> "" then
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("E" & Nb_Lign & ":G" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+endif
+Next Nb_Lign
+
+End Sub
+******************************************************************************

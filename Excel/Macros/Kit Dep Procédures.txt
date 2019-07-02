@@ -1,0 +1,19 @@
+Sub Macro1()
+
+For Nb_Lign = 2 To 170 Step 1 'nblign
+
+    Application.CutCopyMode = False
+If ActiveSheet.Range("B" & Nb_Lign) <> "" Then
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("E" & Nb_Lign & ":F" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    Nb_Lign = Nb_Lign + 1
+Else
+    ActiveSheet.Range("E" & Nb_Lign & ":F" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign, 1).Select
+End If
+    ActiveSheet.Paste
+    
+Next Nb_Lign
+    
+End Sub

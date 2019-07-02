@@ -1,0 +1,99 @@
+Sub Macro1()
+Dim NB_Temp As Integer
+For Nb_Lign = 2 To 4000 Step 1 'nblign*9
+
+If ActiveSheet.Range("N" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("M" & Nb_Lign & ":O" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = 2
+End If
+
+If ActiveSheet.Range("Q" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value1
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("P" & Nb_Lign & ":R" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("T" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value2
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("S" & Nb_Lign & ":U" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("W" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value3
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("V" & Nb_Lign & ":X" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("Z" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value4
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("Y" & Nb_Lign & ":AA" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("AC" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value5
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("AB" & Nb_Lign & ":AD" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("AF" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value6
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("AE" & Nb_Lign & ":AG" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("AI" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'Value7
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("AH" & Nb_Lign & ":AJ" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+
+If ActiveSheet.Range("AL" & Nb_Lign) <> "" Then
+    Application.CutCopyMode = False 'dEP
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).EntireRow.Insert
+    ActiveSheet.Range("AK" & Nb_Lign & ":AL" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + NB_Temp, 1).Select
+    ActiveSheet.Paste
+    NB_Temp = NB_Temp + 1
+End If
+    Nb_Lign = Nb_Lign + NB_Temp - 1
+    NB_Temp = 1
+
+Next Nb_Lign
+    
+Application.CutCopyMode = False
+
+    Columns("M:M").Select
+    ActiveWindow.LargeScroll ToRight:=1
+    ActiveWindow.SmallScroll ToRight:=12
+    Columns("M:AL").Select
+    Selection.Delete Shift:=xlToLeft
+
+
+End Sub

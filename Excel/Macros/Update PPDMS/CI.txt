@@ -1,0 +1,38 @@
+Sub Macro1()
+
+'enlever les filtres
+
+    Cells.EntireColumn.AutoFit
+    Columns("A:H").Select
+    Range("H1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Columns("E:E").Select
+    Selection.Replace What:="GROUPING", Replacement:="GCI", LookAt:=xlWhole, _
+        SearchOrder:=xlByColumns, MatchCase:=False
+    Selection.Replace What:="VALID", Replacement:="V", LookAt:=xlWhole, _
+        SearchOrder:=xlByColumns, MatchCase:=False
+    Selection.Replace What:="TEMPORARY", Replacement:="T", LookAt:=xlWhole, _
+        SearchOrder:=xlByColumns, MatchCase:=False
+    Columns("G:G").Select
+    Selection.Replace What:="NOT REALEASED", Replacement:="NR", LookAt:= _
+        xlWhole, SearchOrder:=xlByColumns, MatchCase:=False
+    ActiveWindow.SmallScroll Down:=27
+    Selection.Replace What:="NOT RELEASED", Replacement:="NR", LookAt:= _
+        xlWhole, SearchOrder:=xlByColumns, MatchCase:=False
+    Selection.Replace What:="RELEASED", Replacement:="FR", LookAt:=xlWhole, _
+        SearchOrder:=xlByColumns, MatchCase:=False
+    Selection.Replace What:="PARTIAL_RELEASED", Replacement:="PR", LookAt:= _
+        xlWhole, SearchOrder:=xlByColumns, MatchCase:=False
+    ActiveWindow.SmallScroll Down:=183
+    Selection.Replace What:="INDUS FROZEN", Replacement:="IF", LookAt:= _
+        xlWhole, SearchOrder:=xlByColumns, MatchCase:=False
+    ActiveWindow.SmallScroll Down:=198
+    Selection.Replace What:="INDUS_FROZEN", Replacement:="IF", LookAt:= _
+        xlWhole, SearchOrder:=xlByColumns, MatchCase:=False
+    Cells.Select
+    Selection.AutoFilter
+    Selection.AutoFilter Field:=4, Criteria1:="ICI"
+    Selection.AutoFilter Field:=5, Criteria1:="V"
+    Range("E23").Select
+
+End Sub

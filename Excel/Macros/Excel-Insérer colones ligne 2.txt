@@ -1,0 +1,26 @@
+
+Dim Min, Max, Nb_Lign, Nb_Col, i As Integer
+    'Min = Colonne après laquelle on ajoute la ligne 2
+    Min = 4
+    'Max = Nb Colonnes max de la ligne 2
+    Max = 6
+    For Nb_Lign = 2 To 40 '= (Nb de lignes du fichier)
+    ActiveSheet.Cells(Nb_Lign, 1).Select
+    If Selection = "2" Then
+        For Nb_Col = 2 To Max
+        ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+            If Selection <> "" Then
+                Selection.Cut
+                i = 2
+                ActiveSheet.Cells(Nb_Lign - 1, i).Select
+                While Selection <> ""
+                    i = i + 1
+                    ActiveSheet.Cells(Nb_Lign - 1, i).Select
+                Wend
+                ActiveSheet.Paste
+            End If
+        Next Nb_Col
+        ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+        Selection.EntireRow.Delete
+    End If
+    Next Nb_Lign

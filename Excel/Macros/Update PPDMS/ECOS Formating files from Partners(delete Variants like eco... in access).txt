@@ -1,0 +1,54 @@
+Sub Macro1()
+' Mise en forme ECOS
+
+    Rows("1:2").Select
+    Selection.Delete Shift:=xlUp
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "Line"
+    Range("C1").Select
+    Selection.EntireColumn.Insert
+    ActiveCell.FormulaR1C1 = "Eco Number"
+    Range("F1").Select
+    Selection.EntireColumn.Insert
+    Range("E1").Select
+    Selection.Cut
+    Range("F1").Select
+    ActiveSheet.Paste
+    Range("E1").Select
+    ActiveCell.FormulaR1C1 = "TITLE"
+    Range("E2").Select
+    Columns("A:B").Select
+    Range("B1").Activate
+    Selection.Delete Shift:=xlToLeft
+    Range("A1").Select
+
+
+For Nb_Lign = 2 To 1876  'nombre de lignes
+
+If IsNumeric(ActiveSheet.Range("C" & Nb_Lign)) Then
+    Application.CutCopyMode = False
+    ActiveSheet.Range("A" & CStr(Nb_Lign - 1)).Copy
+    ActiveSheet.Range("A" & Nb_Lign).Select
+    ActiveSheet.Paste
+    ActiveSheet.Range("C" & Nb_Lign).Cut
+    ActiveSheet.Range("D" & Nb_Lign).Select
+    ActiveSheet.Paste
+    Application.CutCopyMode = False
+    ActiveSheet.Range("C" & CStr(Nb_Lign - 1)).Copy
+    ActiveSheet.Range("C" & Nb_Lign).Select
+    ActiveSheet.Paste
+        If ActiveSheet.Range("B" & CStr(Nb_Lign - 1)) Like "ECO*" Then
+            Application.CutCopyMode = False
+            ActiveSheet.Cells(Nb_Lign - 1, 1).EntireRow.Delete
+            Nb_Lign = Nb_Lign - 1
+        End If
+    Else
+    Application.CutCopyMode = False
+    ActiveSheet.Range("B" & Nb_Lign).Copy
+    ActiveSheet.Range("A" & Nb_Lign).Select
+    ActiveSheet.Paste
+End If
+    
+Next Nb_Lign
+
+End Sub

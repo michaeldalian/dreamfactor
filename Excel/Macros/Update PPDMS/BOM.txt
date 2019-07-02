@@ -1,0 +1,14 @@
+Sub Macro1()
+
+For Nb_Lign = 2 To 1100 Step 1 'nblign*2
+
+If ActiveSheet.Range("J" & Nb_Lign) = 2 Then
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("J" & Nb_Lign & ":L" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+End If
+Next Nb_Lign
+
+End Sub

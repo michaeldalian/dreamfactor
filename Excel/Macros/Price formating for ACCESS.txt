@@ -1,0 +1,45 @@
+Sub Formating_Access()
+'
+' Formating_Access Macro
+' Macro recorded 16/01/04 by Wazza
+'
+    Cells.Select
+    Selection.AutoFilter
+    Selection.RemoveSubtotal
+    With ActiveWindow
+        .SplitColumn = 0
+        .SplitRow = 0
+    End With
+    Cells.Select
+    Range("E1").Activate
+    Selection.EntireColumn.Hidden = False
+    Selection.EntireRow.Hidden = False
+    Rows("1:2").Select
+    Selection.Delete Shift:=xlUp
+    
+        Workbooks.Add
+    ActiveCell.Formula = _
+    "=CLEAN('[TARIFF V1-1 Draft 20-1-04 from Prod Conf Matrix V1-06.xls]MATRIX&TARIFF'!A1)"
+    Range("A1").Select
+    Selection.AutoFill Destination:=Range("A1:BM1"), Type:=xlFillDefault
+    Range("A1:BM1").Select
+    Selection.AutoFill Destination:=Range("A1:BM1100"), Type:=xlFillDefault
+    Application.CutCopyMode = False
+    Range("A1:BM1100").Copy
+    
+    Selection.PasteSpecial Paste:=xlValues, Operation:=xlNone, SkipBlanks:= _
+        False, Transpose:=False
+    Application.CutCopyMode = False
+    Range("A1").Select
+    ActiveCell.FormulaR1C1 = "VERSION"
+    Range("B1").Select
+    ActiveCell.FormulaR1C1 = "date"
+    Range("C1").Select
+    ActiveCell.FormulaR1C1 = "COMM ORDER"
+    Range("D1").Select
+    ActiveCell.FormulaR1C1 = "TECH ORDER"
+    Range("G1").Select
+    ActiveCell.FormulaR1C1 = "ITEM TITLE"
+    ActiveSheet.Name = "Prices_MAIN"
+
+End Sub

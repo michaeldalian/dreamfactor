@@ -1,0 +1,76 @@
+Sub Macro_UPP()
+Dim Nb_Lign, Nb_Col As Integer
+Dim TRang, InRang As Range, i As Integer
+
+For Each TRang In ActiveSheet.Range("A1:GZ1")
+    If TRang.Value Like "*UPP*06*02*" And Not (TRang.Value Like "*SUPP*") Then
+        TRang.Select
+        While ActiveSheet.Cells(TRang.Row + 1, TRang.Column + i) <> ""
+        
+        ActiveSheet.Cells(TRang.Row + 1, TRang.Column + i).Select
+        
+        'Workbooks.Add
+        
+        i = i + 1
+        Wend
+    End If
+Next
+
+
+
+
+On Error GoTo Fin
+For Nb_Col = 1 To 350 Step 1 'nbCol
+    If ActiveSheet.Cells(1, Nb_Col) Like "*UPP*06*03" Then
+    ActiveSheet.Cells(1, Nb_Col).Select
+    
+    Workbooks.Add
+    
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("D" & Nb_Lign & ":E" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+    End If
+Next Nb_Col
+
+On Error GoTo 0
+Fin:
+MsgBox "La colone n'existe pas!" & Chr(13) & "Changez vos critères de recherche" _
+, , "Au secours!"
+
+
+
+For Nb_Lign = 2 To 900 Step 2 'nblign
+
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("D" & Nb_Lign & ":E" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+
+Next Nb_Lign
+    
+Application.CutCopyMode = False
+For Nb_Lign = 900 To 4 Step -1  'nblign
+    
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 2)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 1 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+    
+Next Nb_Lign
+
+Application.CutCopyMode = False
+For Nb_Lign = 900 To 3 Step -1  'nblign
+    
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 1)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 2 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+    
+Next Nb_Lign
+
+End Sub

@@ -1,0 +1,25 @@
+*************************************************************
+Sub BOM()
+
+    Columns("M:T").Select
+    Selection.Delete Shift:=xlToLeft
+    
+For Nb_Lign = 2 To 2000   'nblign
+    
+    If ActiveSheet.Range("L" & Nb_Lign) <> "" Then
+        ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+        Selection.EntireRow.Insert
+        ActiveSheet.Range("J" & Nb_Lign & ":L" & Nb_Lign).Cut
+        ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+        ActiveSheet.Paste
+    End If
+    
+Next Nb_Lign
+
+    Columns("J:L").Select
+    Selection.Delete Shift:=xlToLeft
+
+End Sub
+
+
+*************************************************************

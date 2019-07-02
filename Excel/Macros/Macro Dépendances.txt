@@ -1,0 +1,37 @@
+***************************OPTIONS Cond Dep***********************************
+Sub Macro1()
+
+For Nb_Lign = 2 To 900 Step 2 'nblign
+
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("D" & Nb_Lign & ":E" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+
+Next Nb_Lign
+    
+Application.CutCopyMode = False
+For Nb_Lign = 900 To 4 Step -1  'nblign
+    
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 2)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 1 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+    
+Next Nb_Lign
+
+Application.CutCopyMode = False
+For Nb_Lign = 900 To 3 Step -1  'nblign
+    
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 1)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 2 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+    
+Next Nb_Lign
+
+End Sub
+******************************************************************************

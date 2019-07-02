@@ -1,0 +1,72 @@
+
+Dim Min, Nb_Lign, Nb_Col As Integer
+    Min = 7
+    For Nb_Lign = 2 To 6 Step 2 '6= (Nb de lignes du fichier)*2 (ici:3)
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    Selection.EntireRow.Insert
+    For Nb_Col = Min To 8 'Colones H à I (Min=8) Numéro de la colonne à insérer
+    On Error Resume Next
+    'ActiveSheet correspond à la feuille affichée (ex: Sheet1)
+    ActiveSheet.Cells(Nb_Lign, Nb_Col).Select
+    Selection.Cut
+    ActiveSheet.Cells(Nb_Lign + 1, Nb_Col + 1 - Min).Select
+    ActiveSheet.Paste
+    On Error GoTo 0
+    Next Nb_Col
+    Next Nb_Lign
+
+
+
+Sub Macro1()
+Dim Nb_Lign, VarCol As Integer
+
+Application.CutCopyMode = False
+Selection.EntireColumn.Insert
+VarCol = ActiveCell.Column
+
+For Nb_Lign = 5 To 940
+    ActiveSheet.Cells(Nb_Lign, VarCol - 1).Select
+    Err.Number = 0
+    On Error Resume Next
+    If ActiveCell <> 0 And ActiveCell <> "" And IsNumeric(ActiveCell) Then
+    If Err.Number = 0 Then
+        On Error GoTo 0
+        ActiveSheet.Cells(Nb_Lign, VarCol).Select
+        ActiveCell.FormulaR1C1 = "=RC[-1]*1000000"
+        ActiveCell.Copy
+        ActiveSheet.Cells(Nb_Lign, VarCol - 1).Select
+        Selection.PasteSpecial Paste:=xlValues, Operation:=xlNone, SkipBlanks:=False, Transpose:=False
+    End If
+    End If
+Next Nb_Lign
+ActiveSheet.Cells(Nb_Lign, VarCol).Select
+'Application.CutCopyMode = False
+Selection.EntireColumn.Delete
+
+End Sub
+
+
+Sub Macro1()
+Dim Nb_Lign, VarCol As Integer
+
+Application.CutCopyMode = False
+VarCol = ActiveCell.Column
+
+For Nb_Lign = 5 To 940
+    ActiveSheet.Cells(Nb_Lign, VarCol).Select
+    Err.Number = 0
+    On Error Resume Next
+    If ActiveCell <> "" And IsNumeric(ActiveCell) Then
+    If Err.Number = 0 Then
+        On Error GoTo 0
+        ActiveSheet.Cells(Nb_Lign, VarCol).Select
+        If Left(ActiveCell.FormulaR1C1, 1) = "=" Then
+        ActiveCell.FormulaR1C1 = ActiveCell.FormulaR1C1 + "*1000000"
+        Else
+        ActiveCell.Value = 1000000 * ActiveCell.Value
+        End If
+    End If
+    End If
+Next Nb_Lign
+
+End Sub

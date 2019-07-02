@@ -1,0 +1,56 @@
+Sub Macro2()
+Dim Resultat, J As Integer, StrTitle As String
+
+For Nb_Lign = 4 To 1150 Step 1 'nblign
+    If ActiveSheet.Range("CT" & Nb_Lign) <> "" And _
+    ActiveSheet.Range("R" & Nb_Lign) <> "" And _
+    InStr(1, ActiveSheet.Range("S" & Nb_Lign), "Replacement", vbTextCompare) = 0 And _
+    InStr(1, ActiveSheet.Range("S" & Nb_Lign), "Removable", vbTextCompare) = 0 Then
+        J = 1
+        
+        'If InStr(1, ActiveSheet.Range("S" & CStr(Nb_Lign + J)), _
+            "(Fixed part)", vbTextCompare) > 0 Then
+               
+        StrTitle = Left(ActiveSheet.Range("S" & Nb_Lign), Len(ActiveSheet.Range("S" & Nb_Lign)) - 20)
+        While Len(ActiveSheet.Range("R" & Nb_Lign)) <= Len(ActiveSheet.Range("R" & CStr(Nb_Lign + J)))
+            If InStr(1, ActiveSheet.Range("S" & CStr(Nb_Lign + J)), _
+            StrTitle, vbTextCompare) > 0 Then
+            
+            'Removable Parts
+                If InStr(1, ActiveSheet.Range("S" & CStr(Nb_Lign + J)), _
+                "removable", vbTextCompare) > 0 Then
+                    'Precondition
+                    ActiveSheet.Range("CT" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CT" & Nb_Lign)
+                    ActiveSheet.Range("CT" & Nb_Lign) = ""
+                    ActiveSheet.Range("CU" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CU" & Nb_Lign)
+                    ActiveSheet.Range("CU" & Nb_Lign) = ""
+                    'Procédures
+                    ActiveSheet.Range("CX" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CX" & Nb_Lign)
+                    ActiveSheet.Range("CX" & Nb_Lign) = ""
+                    ActiveSheet.Range("CY" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CY" & Nb_Lign)
+                    ActiveSheet.Range("CY" & Nb_Lign) = ""
+            'Replacement Parts
+                ElseIf InStr(1, ActiveSheet.Range("S" & CStr(Nb_Lign + J)), _
+                "replacement", vbTextCompare) > 0 Then
+                    'Precondition
+                    ActiveSheet.Range("CR" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CR" & Nb_Lign)
+                    ActiveSheet.Range("CR" & Nb_Lign) = ""
+                    ActiveSheet.Range("CS" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CS" & Nb_Lign)
+                    ActiveSheet.Range("CS" & Nb_Lign) = ""
+                    'Procédures
+                    ActiveSheet.Range("CV" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CV" & Nb_Lign)
+                    ActiveSheet.Range("CV" & Nb_Lign) = ""
+                    ActiveSheet.Range("CW" & CStr(Nb_Lign + J)) = ActiveSheet.Range("CW" & Nb_Lign)
+                    ActiveSheet.Range("CW" & Nb_Lign) = ""
+                End If
+            
+            End If
+                J = J + 1
+        Wend
+    End If
+       
+Next Nb_Lign
+
+End Sub
+
+

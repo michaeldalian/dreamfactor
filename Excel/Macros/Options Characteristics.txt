@@ -1,0 +1,90 @@
+'************* First PASS (without Dep) ************************************************
+Sub Without_Dep()
+
+    Application.CutCopyMode = False
+    Columns("Q:R").Select
+    Selection.Delete Shift:=xlToLeft
+
+
+For Nb_Lign = 2 To 2000 Step 2 'nblign
+
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("M" & Nb_Lign & ":P" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+   
+
+Next Nb_Lign
+    
+    Application.CutCopyMode = False
+
+For Nb_Lign = 2000 To 4 Step -1  'nblign
+    
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 2)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 1 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+    
+Next Nb_Lign
+
+
+End Sub
+
+
+'************** Second PASS (with Dep) ***********************************************
+
+Sub With_Dep()
+
+For Nb_Lign = 2 To 800 Step 2 'nblign
+If ActiveSheet.Range("M" & Nb_Lign) = 2 Then
+    Application.CutCopyMode = False
+    ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+    ActiveSheet.Range("M" & Nb_Lign & ":P" & Nb_Lign).Cut
+    ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+    ActiveSheet.Paste
+End If
+Next Nb_Lign
+    
+Application.CutCopyMode = False
+For Nb_Lign = 800 To 4 Step -1  'nblign
+    If ActiveSheet.Range("B" & Nb_Lign) = ActiveSheet.Range("B" & (Nb_Lign - 2)) _
+    And ActiveSheet.Range("A" & Nb_Lign) = 1 Then
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        ActiveSheet.Range("Q" & Nb_Lign & ":R" & Nb_Lign).Cut
+        ActiveSheet.Range("Q" & CStr(Nb_Lign - 1) & ":R" & CStr(Nb_Lign - 1)).Select
+        ActiveSheet.Paste
+        ActiveSheet.Cells(Nb_Lign, 1).Select
+        Selection.EntireRow.Delete
+    End If
+Next Nb_Lign
+
+For Nb_Lign = 2 To 800 Step 1 'nblign
+    Application.CutCopyMode = False
+    If ActiveSheet.Range("Q" & Nb_Lign) = 3 Then
+        ActiveSheet.Cells(Nb_Lign + 1, 1).EntireRow.Insert
+        ActiveSheet.Range("Q" & Nb_Lign & ":R" & Nb_Lign).Cut
+        ActiveSheet.Cells(Nb_Lign + 1, 1).Select
+        ActiveSheet.Paste
+    End If
+Next Nb_Lign
+
+For Nb_Lign = 800 To 2 Step -1 'nblign
+    Application.CutCopyMode = False
+    If ActiveSheet.Cells(Nb_Lign, 1) = 3 _
+    And ActiveSheet.Cells(Nb_Lign + 1, 1) = 2 Then
+        ActiveSheet.Cells(Nb_Lign + 2, 1).EntireRow.Insert
+        ActiveSheet.Cells(Nb_Lign, 1).EntireRow.Cut
+        ActiveSheet.Cells(Nb_Lign + 2, 1).EntireRow.Insert
+        ActiveSheet.Cells(Nb_Lign + 2, 1).EntireRow.Delete
+        Nb_Lign = Nb_Lign + 2
+    End If
+Next Nb_Lign
+
+End Sub
+
+
+
+
+'**********************************************************************
